@@ -101,3 +101,36 @@ In a production environment, a SOC analyst could:
 - `incident-report.md` — Detailed investigation report
 - `spl-queries.txt` — SPL queries used during the investigation
 - `screenshots/` — Investigation evidence and Splunk screenshots
+
+## Investigation Evidence
+
+### Failed Login Events
+
+The following screenshot shows Windows Event ID 4625 records identified in Splunk.
+
+![Failed Login Events](screenshots/failed-login-events.png)
+
+### Failed Login Analysis
+
+This screenshot shows the extracted account information from the failed authentication events.
+
+![Failed Login Count](screenshots/failed-login-count.png)
+
+### Failed Login Event Details
+
+This screenshot shows authentication details including the source network address,
+status, and sub-status values.
+
+![Failed Login Event Details](screenshots/failed-login-event-details.png)
+
+### Authentication Timeline
+
+The following timeline correlates failed and successful authentication events.
+
+![Authentication Timeline](screenshots/authentication-timeline.png)
+
+### Successful Login Events
+
+This screenshot shows Event ID 4624 successful authentication events.
+
+![Successful Login Events](screenshots/successful-login-events.png)
