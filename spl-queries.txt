@@ -1,0 +1,23 @@
+# Find failed Windows logons
+index=main EventCode=4625
+
+# Count failed logons by account
+index=main EventCode=4625
+| stats count by Account_Name
+| sort - count
+
+# Investigate failed logons
+index=main EventCode=4625
+| table _time Account_Name Source_Network_Address Workstation_Name Status Sub_Status
+| sort _time
+
+# Find successful logons
+index=main EventCode=4624
+| table _time Account_Name Source_Network_Address Workstation_Name
+| sort _time
+
+# Correlate failed and successful authentication
+index=main (EventCode=4625 OR EventCode=4624) Account_Name="SOCAdmin"
+| eval Event_Type=if(EventCode=4625,"Failed Login","Successful Login")
+| table _time Event_Type Account_Name Source_Network_Address Workstation_Name
+| sort _time
