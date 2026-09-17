@@ -1,4 +1,4 @@
-# Windows Authentication Investigation
+# Windows Authentication Investigation with Splunk
 
 ## Overview
 
@@ -9,128 +9,77 @@ The investigation focuses on identifying failed authentication attempts,
 analyzing authentication details, and correlating failed logons with
 subsequent successful logons.
 
-## Lab Environment
+This project was completed in a controlled home lab environment to
+practice foundational Security Operations Center (SOC) investigation
+techniques.
 
-- Windows 11
-- Splunk Enterprise 10.4.2
-- Splunk Universal Forwarder 10.4.2
-- Ubuntu 24.04 LTS
-- Oracle VirtualBox
-- Windows Security Event Logs
-- Splunk Search Processing Language (SPL)
+---
 
 ## Investigation Objective
 
-Investigate repeated Windows authentication failures and determine whether
-the activity indicates suspicious behavior.
+The objective of this investigation was to:
 
-## Investigation Process
+- Identify failed Windows authentication attempts.
+- Determine which account was involved.
+- Analyze the source and workstation associated with the events.
+- Examine Windows authentication event details.
+- Correlate failed authentication attempts with successful logons.
+- Create an authentication timeline.
+- Document investigation findings and recommended SOC response actions.
 
-1. Collected Windows Security Event Logs using the Splunk Universal Forwarder.
-2. Searched Splunk for Event ID 4625 failed logons.
-3. Analyzed affected accounts and authentication details.
-4. Examined the source network address and workstation.
-5. Investigated Event ID 4624 successful logons.
-6. Correlated failed and successful authentication events.
-7. Documented the investigation findings.
+---
 
-## Key Events
+## Lab Environment
+
+| Component | Technology |
+|---|---|
+| Operating System | Windows 11 |
+| SIEM | Splunk Enterprise 10.4.2 |
+| Log Collection | Splunk Universal Forwarder 10.4.2 |
+| SIEM Server | Ubuntu 24.04 LTS |
+| Virtualization | Oracle VirtualBox |
+| Log Source | Windows Security Event Logs |
+| Query Language | Splunk Search Processing Language (SPL) |
+
+---
+
+## Investigation Methodology
+
+The investigation followed a basic SOC workflow:
+
+1. Collect Windows Security Event Logs.
+2. Search Splunk for failed authentication events.
+3. Identify affected accounts.
+4. Examine authentication event details.
+5. Analyze source network information.
+6. Search for successful authentication events.
+7. Correlate failed and successful authentication activity.
+8. Build an authentication timeline.
+9. Document findings and recommended response actions.
+
+---
+
+## Windows Event IDs Investigated
 
 ### Event ID 4625 — Failed Logon
 
-Event ID 4625 was used to identify failed authentication attempts.
+Event ID 4625 was used to identify failed Windows authentication attempts.
 
 ### Event ID 4624 — Successful Logon
 
-Event ID 4624 was used to identify successful authentication following
-the failed attempts.
+Event ID 4624 was used to identify successful Windows authentication events
+following the failed attempts.
 
-## Findings
+---
+
+## Key Investigation Findings
 
 Five Event ID 4625 records were identified during the investigation period.
 
-The activity involved the SOCAdmin account and the SOC-WINDOWS workstation.
-Where a source address was recorded, the source was 127.0.0.1, indicating
-the local system.
+The activity involved the `SOCAdmin` account and the `SOC-WINDOWS`
+workstation.
 
-The failed authentication events included Sub-Status 0xC000006A, which
-corresponds to an incorrect password.
+Where a source network address was recorded, the source was:
 
-A subsequent successful authentication was identified after the failed
-authentication attempts.
-
-Because the activity was intentionally generated as part of a controlled
-lab exercise, the evidence does not establish an external brute-force
-attack.
-
-## Investigation Timeline
-
-| Time | Event | Source | Workstation |
-|---|---|---|---|
-| 17:02:13 | Failed Login | Local/unspecified | SOC-WINDOWS |
-| 17:40:28 | Failed Login | 127.0.0.1 | SOC-WINDOWS |
-| 17:40:30 | Failed Login | 127.0.0.1 | SOC-WINDOWS |
-| 17:40:32 | Failed Login | 127.0.0.1 | SOC-WINDOWS |
-| 17:40:35 | Failed Login | 127.0.0.1 | SOC-WINDOWS |
-| 17:40:48 | Successful Login | 127.0.0.1 | SOC-WINDOWS |
-
-## Recommended SOC Response
-
-In a production environment, a SOC analyst could:
-
-- Validate whether the successful authentication was authorized.
-- Investigate the source of the authentication attempts.
-- Review surrounding Windows Security events.
-- Determine whether additional account protections are necessary.
-- Continue monitoring for repeated authentication failures.
-
-## Skills Demonstrated
-
-- Splunk Enterprise
-- SPL
-- Windows Security Event Logs
-- Event ID analysis
-- Authentication investigation
-- Log analysis
-- Timeline creation
-- Incident documentation
-- Basic SOC investigation methodology
-
-## Project Files
-
-- `incident-report.md` — Detailed investigation report
-- `spl-queries.txt` — SPL queries used during the investigation
-- `screenshots/` — Investigation evidence and Splunk screenshots
-
-## Investigation Evidence
-
-### Failed Login Events
-
-The following screenshot shows Windows Event ID 4625 records identified in Splunk.
-
-![Failed Login Events](screenshots/failed-login-events.png)
-
-### Failed Login Analysis
-
-This screenshot shows the extracted account information from the failed authentication events.
-
-![Failed Login Count](screenshots/failed-login-count.png)
-
-### Failed Login Event Details
-
-This screenshot shows authentication details including the source network address,
-status, and sub-status values.
-
-![Failed Login Event Details](screenshots/failed-login-event-details.png)
-
-### Authentication Timeline
-
-The following timeline correlates failed and successful authentication events.
-
-![Authentication Timeline](screenshots/authentication-timeline.png)
-
-### Successful Login Events
-
-This screenshot shows Event ID 4624 successful authentication events.
-
-![Successful Login Events](screenshots/successful-login-events.png)
+```text
+127.0.0.1
