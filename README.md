@@ -84,7 +84,7 @@ Where a source network address was recorded, the source was:
 ```text
 127.0.0.1
 
-```text
+```
 
 ## Investigation Conclusion
 
