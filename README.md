@@ -83,3 +83,24 @@ Where a source network address was recorded, the source was:
 
 ```text
 127.0.0.1
+
+## Investigation Conclusion
+
+The investigation identified five failed Windows authentication events (Event ID 4625) involving the `SOCAdmin` account on the `SOC-WINDOWS` workstation.
+
+The recorded source address `127.0.0.1` is the loopback address, indicating local activity on the system. The failed authentication events were reviewed alongside successful authentication events (Event ID 4624) to examine the sequence of activity.
+
+Because this investigation was conducted in a controlled home lab, the findings demonstrate authentication analysis and event correlation rather than a confirmed real-world brute-force attack. The available evidence should not be used alone to conclude that an account was compromised.
+
+## Recommended SOC Response Actions
+
+Based on the findings of this controlled lab investigation, the following actions would be appropriate in a real environment:
+
+1. **Validate the activity:** Confirm whether the failed authentication attempts were expected and authorized.
+2. **Review authentication logs:** Examine related failed and successful login events for unusual patterns or repeated attempts.
+3. **Verify account status:** Confirm that the affected account is authorized and check for any signs of unauthorized access.
+4. **Investigate the source:** Determine whether the source address and workstation activity are consistent with normal system behavior.
+5. **Escalate if necessary:** If suspicious activity is confirmed, follow the organization's incident response procedures and notify the appropriate security team.
+6. **Document the investigation:** Record relevant timestamps, event IDs, search queries, findings, and actions taken.
+
+These recommendations are intended as general response guidance. The evidence collected in this home lab does not independently establish account compromise or a confirmed brute-force attack.
